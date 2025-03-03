@@ -29,7 +29,7 @@ app.use(limiter);
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:3001"],
+    origin: ["http://localhost:3001", "https://blaze-ui-delta.vercel.app"],
     methods: ["GET", "POST"],
     // allowedHeaders: "*",
     allowedHeaders: ["Content-Type", "Authorization"],
