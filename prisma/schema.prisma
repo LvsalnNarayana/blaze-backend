@@ -1,0 +1,46 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Referral {
+  id         Int      @id @default(autoincrement())
+  referrerId String // Referrer userId (from external system)
+  referredId String // Referred userId (from external system)
+  rootUserId String // Root userId (from external system)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Referrer and Referred fields are now just strings (userIds)
+  // No need for a relation to User model since you're managing users externally.
+
+  @@unique([referrerId, referredId])
+}
+
+// ShareCodes model for referral codes
+model ShareCode {
+  id        String   @id @default(uuid())
+  shareCode String   @unique
+  userId    String   @unique
+  createdAt DateTime @default(now())
+
+  @@index([userId], name: "user_id_idx")
+}
+
+model mt5Account {
+  id                 String   @id @default(uuid())
+  userId             String
+  mt5_account_number String
+  password           String
+  mt5_server         String
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@unique([userId, mt5_account_number])
+}
