@@ -37,6 +37,12 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  console.log(getAuth(req));
+  
+  next();
+});
+
 app.use("/auth", authRouter);
 app.use("/user", requireAuth(), userRouter);
 app.use("/referral", requireAuth(), referalRouter);
